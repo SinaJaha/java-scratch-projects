@@ -4,6 +4,7 @@ public class GameHelper {
     private static int gameLevel;
     private static int numberOfChances;
     private static int randomNumber;
+    private static int gameScore;
 
     private static final String DIVIDER_DECORATIVE_LINE = "*    *********************************************  *";
 
@@ -47,22 +48,19 @@ public class GameHelper {
     private static void setNumberOfChances() {
         // check for the level of the game and set the number of chances
         switch (GameHelper.gameLevel) {
-        case 1:
-            GameHelper.numberOfChances = 7;
-            break;
-        case 2:
-            GameHelper.numberOfChances = 5;
-            break;
-        case 3:
-            GameHelper.numberOfChances = 3;
-            break;
-        default:
-            break;
+            case 1 -> GameHelper.numberOfChances = 7;
+            case 2 -> GameHelper.numberOfChances = 5;
+            case 3 -> GameHelper.numberOfChances = 3;
+            default -> {
+            }
         }
     }
 
     private static void playGame() {
         boolean guessedCorrectly = false;
+
+        //preset value for score
+        GameHelper.gameScore = 100;
 
         while (GameHelper.numberOfChances > 0) {
             System.out.println("*********************** PLAY ************************");
@@ -71,6 +69,9 @@ public class GameHelper {
 
             // get number guessed by user
             int guessedNumber = InputHelper.getUserInputForGuessedNumber();
+
+            //reducing score based on gameLevel
+            GameHelper.gameScore -= (17 - GameHelper.gameLevel * 3);
 
             if (guessedNumber > GameHelper.randomNumber) {
                 System.out.println("* YOU HAVE TO GUESS A LOWER VALUED NUMBER!          *");
@@ -81,6 +82,7 @@ public class GameHelper {
             else {
                 guessedCorrectly = true;
                 System.out.println("* CONGRATULATIONS! YOU'VE GUESSED IT CORRECT!!!     *");
+                System.out.println("* YOUR TOTAL SCORE WAS " + GameHelper.gameScore + "!                          *");
                 System.out.println(InputHelper.END_DECORATIVE_STRING);
                 break;
             }
